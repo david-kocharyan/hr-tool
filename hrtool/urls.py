@@ -37,6 +37,9 @@ urlpatterns = [
 
     # Open Position
     path('api/positions/', include('apps.position.urls')),
+
+    # Applicants
+    path('api/applicants/', include('apps.applicant.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,9 @@
+from django.conf import settings
 from rest_framework import serializers
-from .models import Position
+
+from .models import Applicant
 from ..company.models import Company
+from ..position.models import Position
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -9,40 +12,93 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            "slug",
         )
 
 
 class PositionSerializer(serializers.ModelSerializer):
-    company = CompanySerializer()
-
     class Meta:
         model = Position
         fields = (
             "id",
-            "company",
             "name",
-            "description",
-            "skill",
-            "number",
+        )
 
+
+class ApplicantSerializer(serializers.ModelSerializer):
+    company = CompanySerializer()
+    position_applied = PositionSerializer()
+    cv = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Applicant
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
+            "gender",
+            "country",
+            "dob",
+            "level",
+            "skill",
+            "comment",
+            "status",
+            "company",
+            "position_applied",
+            "cv",
         )
         depth = 1
 
+    def get_cv(self, obj):
+        return f"{settings.BASE_URL}/media/{obj.cv}"
 
-class PositionCreateSerializer(serializers.Serializer):
-    name = serializers.CharField(required=True, max_length=60)
-    description = serializers.CharField(required=True, max_length=500)
-    skill = serializers.ListField(required=True, child=serializers.CharField())
-    number = serializers.IntegerField(required=True, min_value=0)
+
+class ApplicantCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Applicant
+        fields = (
+            "position_applied",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
+            "gender",
+            "country",
+            "dob",
+            "level",
+            "skill",
+            "comment",
+            "status",
+            "cv",
+        )
 
     def create(self, validated_data):
-        user = self.context.get('user')
-        position = Position.objects.create(
-            company_id=user.active_company,
-            name=validated_data.get('name'),
-            description=validated_data.get('description'),
+        current_user = self.context.get('user')
+        applicant = Applicant.objects.create(
+            company_id=current_user.active_company,
+            position_applied=validated_data.get('position_applied'),
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name'),
+            email=validated_data.get('email'),
+            phone=validated_data.get('phone'),
+            gender=validated_data.get('gender'),
+            country=validated_data.get('country'),
+            dob=validated_data.get('dob'),
+            level=validated_data.get('level'),
             skill=validated_data.get('skill'),
-            number=validated_data.get('number'),
+            comment=validated_data.get('comment'),
+            status=validated_data.get('status'),
+            cv=validated_data.get('cv'),
         )
-        return position
+        return applicant
+
+
+class ApplicantCvUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Applicant
+        fields = ("cv",)
+
+    def update(self, instance, validated_data):
+        instance.cv = validated_data['cv']
+        instance.save()
