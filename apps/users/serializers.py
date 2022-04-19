@@ -43,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
             'dob',
             'is_active',
             'auth_provider',
+            'active_company',
         )
         extra_kwargs = {'password': {'write_only': True}}
         depth = 1
