@@ -47,7 +47,7 @@ class ApplicantView(viewsets.ModelViewSet):
         return super().partial_update(request, *args, **kwargs)
 
     @action(methods=['post'], detail=False, url_path="export", url_name="export_applicants", )
-    def export_positions(self, request, *args, **kwargs):
+    def export_applicants(self, request, *args, **kwargs):
         company = Company.objects.filter(pk=request.user.active_company).first()
         applicant = Applicant.objects.filter(pk__in=request.data.get('id_list')) \
             .values("company__name", "position_applied__name", "first_name", "last_name", "email", "phone", "gender",
