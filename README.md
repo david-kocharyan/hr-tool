@@ -71,5 +71,9 @@ Here's instruction for installing and setting up the app step by step._
    ```shell
     python manage.py migration
    ```
+6. Run`
+   ```shell
+    python manage.py runserver
+   ```
 
 <p align="center"><a href="#top">Back to top</a></p>
