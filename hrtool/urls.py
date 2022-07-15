@@ -40,6 +40,9 @@ urlpatterns = [
 
     # Applicants
     path('api/applicants/', include('apps.applicant.urls')),
+
+    # Members
+    path('api/members/', include('apps.member.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

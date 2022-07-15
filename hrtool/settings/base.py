@@ -47,6 +47,7 @@ PROJECT_APPS = [
     'apps.company',
     'apps.position',
     'apps.applicant',
+    'apps.member',
 ]
 
 THIRD_PARTY_APPS = [

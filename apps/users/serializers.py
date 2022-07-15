@@ -133,6 +133,7 @@ class ChangePasswordSerializer(serializers.Serializer):
         instance.save()
         return instance
 
+
 class ForgetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 

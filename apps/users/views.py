@@ -8,7 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import (OutstandingToken, BlacklistedToken)
 
-from apps.users.models import User, ForgetPassword
+from apps.users.models import (User, ForgetPassword)
+
 from apps.users.serializers import (TokenObtainPairPatchedSerializer, UserRegistrationSerializer, UserSerializer,
                                     ChangePasswordSerializer, ForgetPasswordSerializer, SetForgetPasswordSerializer, )
 

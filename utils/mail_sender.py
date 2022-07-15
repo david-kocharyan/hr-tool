@@ -18,3 +18,18 @@ def forget_password_message(user, verification):
     recipient_list = [user.email]
 
     return send_mail('Forget password request', '', settings.DEFAULT_FROM_EMAIL, recipient_list, html_message=msg_html)
+
+
+def invite_message(email, company, invite_token):
+    context = {
+        'email': email,
+        'company': company,
+        'link_url': f'{settings.FRONTEND_URL}/members-invite/{invite_token}/',
+        'image': f'{settings.BASE_URL}/static/img/email_logo.png',
+        'year': datetime.datetime.now().year
+    }
+
+    msg_html = render_to_string('mails/member_invitation.html', context)
+    recipient_list = [email]
+
+    return send_mail(f"Invite to {company}", '', settings.DEFAULT_FROM_EMAIL, recipient_list, html_message=msg_html)

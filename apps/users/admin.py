@@ -26,7 +26,7 @@ class UserAdmin(BaseUserAdmin):
                      'auth_provider')}),
         ('Other info', {'fields': ('last_login', 'created_at', 'updated_at')}),
     )
-    readonly_fields = ('created_at', 'updated_at', 'last_login')
+    readonly_fields = ('created_at', 'updated_at', 'last_login', 'auth_provider')
 
 
 class OutstandingTokenAdmin(jwt_admin.OutstandingTokenAdmin):
