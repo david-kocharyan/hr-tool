@@ -69,3 +69,6 @@ class InviteActionView(views.APIView):
             invite_message(serializer.validated_data['email'], company, invite.uuid)
 
         return Response({"message": "Invitation has been send successfully."}, status=status.HTTP_200_OK)
+
+    def get(self, request, *args, **kwargs):
+        print(kwargs)
