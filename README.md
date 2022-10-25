@@ -1,5 +1,5 @@
 <div id="top"></div>
-<h1 align="center">HR Tool Back End (for Tsovinar)</h1>
+<h1 align="center">HR Tool Back End</h1>
 
 ![Build Status](https://img.shields.io/badge/Status-Development-green)
 ![Python](https://img.shields.io/badge/python-v3.8.10-blue)
