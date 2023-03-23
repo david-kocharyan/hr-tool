@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from apps.core.models import TimeStampedAbstractModel
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import Permission, Group
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
 
@@ -38,6 +39,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedAbstractModel):
     auth_provider = models.CharField(max_length=255, blank=False, null=False, default=AUTH_PROVIDERS.get('email'))
 
     active_company = models.PositiveBigIntegerField(verbose_name="Active Company", null=True)
+
+    # permissions = models.ManyToManyField(Permission)
+    # groups = models.ManyToManyField(Group)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
