@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -23,7 +23,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         ('User Info',
          {'fields': ('email', 'password', 'first_name', 'last_name', 'dob', 'is_staff', 'is_active', 'is_superuser',
-                     'auth_provider')}),
+                     'auth_provider', 'user_permissions', 'groups')}),
         ('Other info', {'fields': ('last_login', 'created_at', 'updated_at')}),
     )
     readonly_fields = ('created_at', 'updated_at', 'last_login', 'auth_provider')
@@ -34,8 +34,21 @@ class OutstandingTokenAdmin(jwt_admin.OutstandingTokenAdmin):
         return True
 
 
+class PermissionAdmin(admin.ModelAdmin):
+    model = Permission
+    fields = ['name']
+
+
+class GroupAdmin(admin.ModelAdmin):
+    model = Group
+    fields = ['name', 'permissions']
+
+
+# admin.site.register(Group, GroupAdmin)
+admin.site.register(Permission, PermissionAdmin)
+
+
 admin.site.unregister(jwt_models.OutstandingToken)
 admin.site.register(jwt_models.OutstandingToken, OutstandingTokenAdmin)
 
 admin.site.register(User, UserAdmin)
-admin.site.unregister(Group)

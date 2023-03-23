@@ -1,6 +1,7 @@
 from django.db import models
 
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import Permission, Group
 
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin, BaseUserManager, Permission
 
@@ -42,6 +43,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedAbstractModel):
 
     active_company = models.ForeignKey("company.Company", verbose_name="Active Company", on_delete=models.CASCADE,
                                        null=True)
+
+    # permissions = models.ManyToManyField(Permission)
+    # groups = models.ManyToManyField(Group)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
