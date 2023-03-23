@@ -1,7 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from apps.core.models import TimeStampedAbstractModel
+
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin, BaseUserManager, Permission
+
+from apps.core.models import TimeStampedAbstractModel
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
 
@@ -37,7 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedAbstractModel):
     is_superuser = models.BooleanField(default=False)
     auth_provider = models.CharField(max_length=255, blank=False, null=False, default=AUTH_PROVIDERS.get('email'))
 
-    active_company = models.PositiveBigIntegerField(verbose_name="Active Company", null=True)
+    active_company = models.ForeignKey("company.Company", verbose_name="Active Company", on_delete=models.CASCADE,
+                                       null=True)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
